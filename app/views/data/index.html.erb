@@ -1,20 +1,6 @@
 <h2>All data</h2>
 
-<table>
-  <% @data.each do |d| %>
-    <tr>
-      <td><%= d.created_at.strftime("%b %d") %></td>
-      <td><%= d.value %></td>
-      <td>
-        <% last = d.tags.last %>
-        <% d.tags.each do |t| %>
-          <%= "##{t.name}#{", " if t != last}" %>
-        <% end %>
-      </td>
-      <td><%= link_to "Delete", d, :method => :delete %></td>
-    </tr>
-  <% end %>
-</table>
+<%= render :partial => 'datalist' %>
 
 <section>
   <p><%= link_to "Add more data", new_datum_path %></p>
