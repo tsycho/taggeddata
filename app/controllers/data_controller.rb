@@ -33,6 +33,12 @@ class DataController < ApplicationController
     redirect_to data_path
   end
 
+  def destroy
+    d = Datum.find(params[:id])
+    d.delete if !d.nil?
+    redirect_to data_path
+  end
+
 private
 
   def datum_params
