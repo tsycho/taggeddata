@@ -1,0 +1,8 @@
+<%= simple_form_for @datum do |f| %>
+  <%= f.input :value %>
+  <%= f.input :string_tags, input_html: {value: ''} %>
+
+  <%= f.button :submit %>
+<% end %>
+
+<br/>

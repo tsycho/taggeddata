@@ -1,0 +1,20 @@
+<h2>All data</h2>
+
+<table>
+  <% @data.each do |d| %>
+    <tr>
+      <td><%= d.created_at.strftime("%b %d") %></td>
+      <td><%= d.value %></td>
+      <td>
+        <% last = d.tags.last %>
+        <% d.tags.each do |t| %>
+          <%= "##{t.name}#{", " if t != last}" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<section>
+  <p><%= link_to "Add more data", new_datum_path %></p>
+</section>
