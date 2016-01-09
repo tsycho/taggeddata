@@ -1,7 +1,10 @@
-<h2><%= "##{@tag.name}"%></h2>
+<h2>
+  <%= @tags.map { |t| "##{t.name}" }.join(", ") %>
+</h2>
 
 <section>
-  <%= line_chart @data.group_by_day(:created_at, "avg", "value"), :min => 18 %>
+  <%# Compute and specify :min, :max %>
+  <%= line_chart @grouped_data %>
 </section>
 
 <section>
