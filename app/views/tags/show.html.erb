@@ -1,6 +1,12 @@
 <h2><%= "##{@tag.name}"%></h2>
 
-<%= render :partial => 'data/datalist' %>
+<section>
+  <%= render :partial => 'data/datalist' %>
+</section>
+
+<section>
+  <%= line_chart @data.group_by_day(:created_at, "avg", "value") %>
+</section>
 
 <section>
   <p><%= link_to "Go back", data_path %></p>
