@@ -9,10 +9,11 @@ class DataController < ApplicationController
   end
 
   def create
-    # TODO: Validate that there is some value
+    # TODO: Validate params
 
     value = params["datum"]["value"].to_f
-    @datum = Datum.create(:value => value)
+    date = Date.parse(params["datum"]["date"]) || Date.today
+    @datum = Datum.create(:value => value, :created_at => date)
 
     # Find the tag objects for each string tag, create if necessary
     string_tags = params["datum"]["string_tags"] || ""

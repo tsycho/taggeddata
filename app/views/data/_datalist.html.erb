@@ -2,7 +2,7 @@
 <table>
   <% @data.each do |d| %>
     <tr>
-      <td><%= d.created_at.strftime("%b %d") %></td>
+      <td><%= d.created_at.strftime("%Y-%m-%d") %></td>
       <td><%= d.value %></td>
       <td>
         <% last = d.tags.last %>

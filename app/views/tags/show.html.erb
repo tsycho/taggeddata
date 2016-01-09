@@ -1,11 +1,11 @@
 <h2><%= "##{@tag.name}"%></h2>
 
 <section>
-  <%= render :partial => 'data/datalist' %>
+  <%= line_chart @data.group_by_day(:created_at, "avg", "value"), :min => 18 %>
 </section>
 
 <section>
-  <%= line_chart @data.group_by_day(:created_at, "avg", "value") %>
+  <%= render :partial => 'data/datalist' %>
 </section>
 
 <section>
