@@ -7,7 +7,7 @@ class TagsController < ApplicationController
       redirect_to data_path
     else
       first = @tags.first
-      @data = first.data.all
+      @data = first.data.all.includes(:tags).order("created_at DESC")
       # TODO: Figure out if we can do a table join instead.
       @tags[1..-1].each { |t|
         @data = @data.select { |d| d.tags.include?(t) }

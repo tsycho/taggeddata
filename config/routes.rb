@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'tags/show'
-
   root 'data#index'
 
   resources :data

@@ -1,7 +1,10 @@
 <h2>All data</h2>
 
-<%= render :partial => 'datalist' %>
-
-<section>
-  <p><%= link_to "Add more data", new_datum_path %></p>
-</section>
+<div class="row">
+  <div class="large-4 large-push-8 columns">
+    <%= link_to "+ Add data", new_datum_path, :class => "button radius small" %>
+  </div>
+  <div class="large-8 large-pull-4 columns">
+    <%= render :partial => 'datalist' %>
+  </div>
+</div>

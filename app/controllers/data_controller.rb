@@ -1,6 +1,6 @@
 class DataController < ApplicationController
   def index
-    @data = Datum.all
+    @data = Datum.all.includes(:tags).order("created_at DESC")
   end
 
   def new

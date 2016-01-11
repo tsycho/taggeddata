@@ -1,5 +1,11 @@
 <%# This fragment assumes @data is populated with the data we want to display %>
 <table>
+    <tr>
+      <th>Date</th>
+      <th>Value</th>
+      <th>Tags</th>
+      <th></th>
+    </tr>
   <% @data.each do |d| %>
     <tr>
       <td><%= d.created_at.strftime("%Y-%m-%d") %></td>
