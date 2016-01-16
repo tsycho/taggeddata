@@ -1,3 +1,4 @@
 class Datum < ActiveRecord::Base
-  has_and_belongs_to_many :tags
+  scope :any_tags, -> (tags) { where('tags && ARRAY[?]', tags) }
+  scope :all_tags, -> (tags) { where('tags @> ARRAY[?]', tags) }
 end

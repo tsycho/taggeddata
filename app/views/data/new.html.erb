@@ -1,7 +1,7 @@
 <%= simple_form_for @datum do |f| %>
-  <%= f.input :date, input_html: {value: Date.today.strftime("%Y-%m-%d")} %>
+  <%= f.input :s_date, input_html: {value: Date.today.strftime("%Y-%m-%d")} %>
   <%= f.input :value %>
-  <%= f.input :string_tags, input_html: {value: ''} %>
+  <%= f.input :s_tags, input_html: {value: ''} %>
 
   <%= f.button :submit %>
 <% end %>

@@ -8,12 +8,11 @@
     </tr>
   <% @data.each do |d| %>
     <tr>
-      <td><%= d.created_at.strftime("%Y-%m-%d") %></td>
+      <td><%= d.date.strftime("%Y-%m-%d") %></td>
       <td><%= d.value %></td>
       <td>
-        <% last = d.tags.last %>
-        <% d.tags.each do |t| %>
-          <%= link_to "##{t.name}", "/tags/#{t.name}" %>
+        <% d.tags.each do |tag| %>
+          <%= link_to "##{tag}", "/tags/#{tag}" %>
         <% end %>
       </td>
       <td><%= link_to "Delete", d, :method => :delete %></td>

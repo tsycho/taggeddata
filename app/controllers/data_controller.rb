@@ -1,6 +1,6 @@
 class DataController < ApplicationController
   def index
-    @data = Datum.all.includes(:tags).order("created_at DESC")
+    @data = Datum.all.order("date DESC")
   end
 
   def new
@@ -11,25 +11,18 @@ class DataController < ApplicationController
   def create
     # TODO: Validate params
 
+    # Split, filter and format the tags
+    # TODO: Dedupe tags?
+    s_tags = params["datum"]["s_tags"] || ""
+    s_tags = "untagged" if s_tags.empty?
+    @tags = s_tags.split(/[\s,]+/)
+              .map { |t| t[0]=='#' ? t[1..-1] : t }
+              .map { |t| t.downcase}
+              .select { |t| t.length > 0 }
+
     value = params["datum"]["value"].to_f
-    date = Date.parse(params["datum"]["date"]) || Date.today
-    @datum = Datum.create(:value => value, :created_at => date)
-
-    # Find the tag objects for each string tag, create if necessary
-    string_tags = params["datum"]["string_tags"] || ""
-    string_tags = "untagged" if string_tags.empty?
-    @tags = []
-    string_tags.split(/[\s,]+/).each do |string_tag|
-      # TODO: Figure out if Rails has a upsert command
-      string_tag = string_tag.downcase
-      tag = Tag.where(:name => string_tag).first
-      if !tag
-        tag = Tag.create(:name => string_tag)
-      end
-
-      # Add the [data, tag] association to the join table.
-      @datum.tags << tag
-    end
+    date = (params["datum"]["s_date"] && Date.parse(params["datum"]["s_date"])) || Date.today
+    @datum = Datum.create(:value => value, :date => date, :tags => @tags)
 
     redirect_to data_path
   end

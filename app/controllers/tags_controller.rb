@@ -1,17 +1,17 @@
 class TagsController < ApplicationController
   def show
-    string_tags = (params["tags"] || "").split(/[\s,+]+/)
-    @tags = string_tags.map { |s| Tag.where(:name => s).first }.compact
+    @tags = (params["tags"] || "")
+              .split(/[\s,]+/)
+              .map { |t| t[0]=='#' ? t[1..-1] : t }
+              .map { |t| t.downcase }
+              .select { |t| t.length > 0 }
 
     if @tags.count == 0
       redirect_to data_path
     else
-      first = @tags.first
-      @data = first.data.all.includes(:tags).order("created_at DESC")
-      # TODO: Figure out if we can do a table join instead.
-      @tags[1..-1].each { |t|
-        @data = @data.select { |d| d.tags.include?(t) }
-      }
+      @data = Datum.all_tags(@tags).order("date DESC")
+      # @grouped_data = Datum.all_tags(@tags).group_by_day(:date).average(:value)
+      # ActiveRecord::Base.connection.execute("SELECT date, avg(value) AS average_value from data WHERE tags @> [#{@tags.map {|t| '\''+t+'\''}.join('')}] GROUP BY date")
       @grouped_data = group_by_day(@data)
     end
   end
@@ -21,7 +21,7 @@ private
   def group_by_day(array)
     dmap = {}
     array.each { |d|
-      sdate = d.created_at.strftime("%Y-%m-%d")
+      sdate = d.date.strftime("%Y-%m-%d")
       dmap[sdate] = [] if dmap[sdate].nil?
       dmap[sdate] << d.value
     }
