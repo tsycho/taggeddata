@@ -23,10 +23,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'simple_form'
 gem 'foundation-rails'
-
-# Charting
-gem 'groupdate'
 gem 'chartkick'
+gem 'omniauth-google-oauth2'
 gem 'pg'
 
 group :development, :test do
