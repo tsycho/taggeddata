@@ -1,15 +1,42 @@
-<nav class="top-bar" data-topbar role="navigation">
-  <div class="row title-area collapse">
-    <div class="name large-2 small-12 columns">
+<nav class="top-bar" role="navigation">
+  <div class="row title-area">
+    <div class="name small-1 medium-3 large-2 columns">
       <h1><a href="#">Tagged Data</a></h1>
     </div>
 
-    <div class="name large-8 small-8 columns">
-      <input type="text" placeholder="Search via tags (eg: #sfo #weather)">
-    </div>
+    <div class="search-area small-11 medium-9 large-10 columns">
+      <div class="row collapse">
+        <div class="small-9 columns">
+          <input id="search-text" type="text" placeholder="Search via tags (eg: #sfo #weather)"
+            <% if @tags && @tags.count > 0 %>
+              value="<%= @tags.map {|t| "##{t}"}.join(" ") + " " %>"
+            <% end %>
+          >
+        </div>
 
-    <div class="name large-2 small-4 columns">
-      <a href="#" class="alert button expand">Search</a>
+        <div class="small-3 columns">
+          <a href="#" id="search-button" class="alert button expand">Search</a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
+
+<script>
+  function doSearch() {
+    var text = $('#search-text').val().trim().replace(/#+/g, "").replace(/[\s,]+/g, ",");
+    var functionSuffix = "/<%= @function || '' %>";
+    if (text.length > 0) {
+      window.location.href = "/tags/" + text + functionSuffix;
+    } else {
+      window.location.href = "/";
+    }
+  };
+
+  $(function() {
+    $('#search-button').click(function(event) { doSearch(); });
+    $('#search-text').keyup(function(event) {
+      if(event.which == 13) { doSearch(); }
+    });
+  });
+</script>

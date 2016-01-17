@@ -1,3 +1,8 @@
-nav.top-bar {
+.top-bar {
   line-height: inherit;
+
+  .search-area {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

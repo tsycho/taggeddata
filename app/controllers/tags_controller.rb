@@ -6,15 +6,17 @@ class TagsController < ApplicationController
               .map { |t| t.downcase }
               .select { |t| t.length > 0 }
 
+    @function = (params["function"] || "avg").downcase
+
     if @tags.count == 0
       redirect_to data_path
     else
       @data = Datum.all_tags(@tags).order("date DESC")
 
       # Average and group by date via direct SQL
-      results = ActiveRecord::Base.connection.execute("SELECT date, avg(value) AS average_value from data WHERE tags @> ARRAY[#{@tags.map {|t| '\''+t+'\''}.join(',')}] GROUP BY date")
+      results = ActiveRecord::Base.connection.execute("SELECT date, #{@function}(value) AS computed_value from data WHERE tags @> ARRAY[#{@tags.map {|t| '\''+t+'\''}.join(',')}] GROUP BY date")
       @grouped_data = {}
-      results.each { |row| @grouped_data[row["date"]] = row["average_value"].to_f }
+      results.each { |row| @grouped_data[row["date"]] = row["computed_value"].to_f }
 
       # Compute grouped average in Ruby
       # @grouped_data = group_by_day(@data)
