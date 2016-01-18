@@ -1,6 +1,13 @@
 class DataController < ApplicationController
+  before_action :require_login, :except => :index
+
   def index
-    @data = Datum.all.order("date DESC")
+    if current_user
+      @data = Datum.where(:user => current_user).order("date DESC")
+    else
+      # TODO: Show only public data, not all.
+      @data = Datum.all.order("date DESC")
+    end
   end
 
   def new
@@ -22,7 +29,10 @@ class DataController < ApplicationController
 
     value = params["datum"]["value"].to_f
     date = (params["datum"]["s_date"] && Date.parse(params["datum"]["s_date"])) || Date.today
-    @datum = Datum.create(:value => value, :date => date, :tags => @tags)
+    @datum = Datum.create(:user_id => current_user.id,
+                          :value => value,
+                          :date => date,
+                          :tags => @tags)
 
     redirect_to data_path
   end
@@ -31,11 +41,5 @@ class DataController < ApplicationController
     d = Datum.find(params[:id])
     d.delete if !d.nil?
     redirect_to data_path
-  end
-
-private
-
-  def datum_params
-    params.require(:datum).permit(:value)
   end
 end

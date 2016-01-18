@@ -4,14 +4,14 @@
     <%= current_user.name %>
     | <%= link_to "Sign out", signout_path %>
   <% else %>
-    <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+    <%= link_to "Sign in with Google", signin_path %>
   <% end %>
 </div>
 
 <nav class="top-bar" role="navigation">
   <div class="row title-area">
     <div class="name small-1 medium-3 large-2 columns">
-      <h1><a href="#">Tagged Data</a></h1>
+      <h1><a href="<%=root_url%>">Tagged Data</a></h1>
     </div>
 
     <div class="search-area small-11 medium-9 large-10 columns">

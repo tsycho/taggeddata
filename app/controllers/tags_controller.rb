@@ -1,4 +1,7 @@
 class TagsController < ApplicationController
+  # TODO: Remove this and add support for unauthenticated search over public data.
+  before_action :require_login
+
   def show
     @tags = (params["tags"] || "")
               .split(/[\s,]+/)
@@ -11,32 +14,13 @@ class TagsController < ApplicationController
     if @tags.count == 0
       redirect_to data_path
     else
-      @data = Datum.all_tags(@tags).order("date DESC")
+      # TODO: Combine SQL queries below.
+      @data = Datum.all_tags(@tags).where(:user => current_user).order("date DESC")
 
       # Average and group by date via direct SQL
-      results = ActiveRecord::Base.connection.execute("SELECT date, #{@function}(value) AS computed_value from data WHERE tags @> ARRAY[#{@tags.map {|t| '\''+t+'\''}.join(',')}] GROUP BY date")
+      results = ActiveRecord::Base.connection.execute("SELECT date, #{@function}(value) AS computed_value from data WHERE user_id = #{current_user.id} AND tags @> ARRAY[#{@tags.map {|t| '\''+t+'\''}.join(',')}] GROUP BY date")
       @grouped_data = {}
       results.each { |row| @grouped_data[row["date"]] = row["computed_value"].to_f }
-
-      # Compute grouped average in Ruby
-      # @grouped_data = group_by_day(@data)
     end
-  end
-
-private
-  # Groups the data by date, and computes the average value per day
-  def group_by_day(array)
-    dmap = {}
-    array.each { |d|
-      sdate = d.date.strftime("%Y-%m-%d")
-      dmap[sdate] = [] if dmap[sdate].nil?
-      dmap[sdate] << d.value
-    }
-
-    dmap.keys.each { |date|
-      avg = dmap[date].inject{ |sum, el| sum + el }.to_f / dmap[date].size
-      dmap[date] = avg
-    }
-    return dmap
   end
 end

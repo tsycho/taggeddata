@@ -1,21 +1,28 @@
-<%# This fragment assumes @data is populated with the data we want to display %>
-<table>
-    <tr>
-      <th>Date</th>
-      <th>Value</th>
-      <th>Tags</th>
-      <th></th>
-    </tr>
-  <% @data.each do |d| %>
-    <tr>
-      <td><%= d.date.strftime("%Y-%m-%d") %></td>
-      <td><%= d.value %></td>
-      <td>
-        <% d.tags.each do |tag| %>
-          <%= link_to "##{tag}", "/tags/#{tag}" %>
-        <% end %>
-      </td>
-      <td><%= link_to "Delete", d, :method => :delete %></td>
-    </tr>
-  <% end %>
-</table>
+<% if @data.count > 0 %>
+  <%# This fragment assumes @data is populated with the data we want to display %>
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Value</th>
+        <th>Tags</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @data.each do |d| %>
+        <tr>
+          <td class="data-date"><%= d.date.strftime("%Y-%m-%d") %></td>
+          <td class="data-value"><%= d.value %></td>
+          <td class="data-tags">
+            <% d.tags.each do |tag| %>
+              <%= link_to "##{tag}", "/tags/#{tag}" %>
+            <% end %>
+          </td>
+          <td class="data-options"><%= link_to "Delete", d, :method => :delete %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

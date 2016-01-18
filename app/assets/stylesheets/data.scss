@@ -2,10 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.data-header a {
+  margin-top: 10px;
+}
+
 $selected-color: salmon;
 
 #chart_formula label {
-  padding: 0.5rem 2rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
 }
 
 input[data-toggle] {
@@ -21,6 +26,15 @@ input[data-toggle]:checked + label:active {
 
 .button-group.toggle {
   li:not(first-child) {
-    margin: 0 -0.9rem;
+    margin: 0 -0.2rem;
+  }
+}
+
+#data-table {
+  margin: 60px auto 20px auto;
+  width: 80%;
+
+  th, td.data-date, td.data-value, td.data-options {
+    text-align: center;
   }
 }

@@ -2,45 +2,50 @@
   <div class="medium-4 columns">
     <h2><%= @tags.map { |tag| "##{tag}" }.join(", ") %></h2>
   </div>
-
-  <div class="large-8 columns">
-    <ul id="chart_formula" class="button-group round toggle" data-toggle="buttons-radio">
-      <% ["avg", "count", "sum"].each do |func| %>
-        <li>
-          <input type="radio" id="r_<%= func %>" name="r-group" data-toggle="button"
-            <% if @function == func %> checked="checked"<% end %>>
-            <% label_text = func[0].capitalize + func[1..-1] %>
-          <label class="button" for="r_<%= func %>"><%= label_text %></label>
-        </li>
-      <% end %>
-    </ul>
-  </div>
 </div>
 
-<section>
-  <%# Compute and specify :min, :max %>
-  <%= line_chart @grouped_data %>
-</section>
+<% if @data.count > 0 %>
+  <section id="data-chart">
+    <%# Compute and specify :min, :max %>
+    <%= line_chart @grouped_data %>
 
-<section>
-  <%= render :partial => 'data/datalist' %>
-</section>
+    <div class="row">
+      <div class="medium-6 medium-centered columns">
+        <ul id="chart_formula" class="button-group even-3 round toggle" data-toggle="buttons-radio">
+          <% ["avg", "count", "sum"].each do |func| %>
+            <li>
+              <input type="radio" id="r_<%= func %>" name="r-group" data-toggle="button"
+                <% if @function == func %> checked="checked"<% end %>>
+                <% label_text = func[0].capitalize + func[1..-1] %>
+              <label class="button" for="r_<%= func %>"><%= label_text %></label>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </section>
+<% else %>
+  <h3>No data found.</h3>
+<% end %>
 
-<section>
-  <p><%= link_to "Go back", data_path %></p>
-</section>
+<% if @data.count > 0 %>
+  <section>
+    <%= render :partial => 'data/datalist' %>
+  </section>
+<% end %>
 
 <script>
-<% base_url = "/tags/" + @tags.join(",") %>
-$(function() {
-  $('#r_avg').click(function(event) {
-    window.location.href = '<%= "#{base_url}/avg"%>';
+  <% base_url = "/tags/" + @tags.join(",") %>
+
+  $(function() {
+    $('#r_avg').click(function(event) {
+      window.location.href = '<%= "#{base_url}/avg"%>';
+    });
+    $('#r_count').click(function(event) {
+      window.location.href = '<%= "#{base_url}/count"%>';
+    });
+    $('#r_sum').click(function(event) {
+      window.location.href = '<%= "#{base_url}/sum"%>';
+    });
   });
-  $('#r_count').click(function(event) {
-    window.location.href = '<%= "#{base_url}/count"%>';
-  });
-  $('#r_sum').click(function(event) {
-    window.location.href = '<%= "#{base_url}/sum"%>';
-  });
-});
 </script>

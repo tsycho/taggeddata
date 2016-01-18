@@ -12,17 +12,8 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20160117082816) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "data", force: :cascade do |t|
-    t.decimal "value",              null: false
-    t.text    "tags",  default: [],              array: true
-    t.date    "date",               null: false
-  end
-
-  add_index "data", ["tags"], name: "index_data_on_tags", using: :gin
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",   null: false
@@ -34,4 +25,18 @@ ActiveRecord::Schema.define(version: 20160117082816) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid"
+
+  create_table "data", force: :cascade do |t|
+    t.integer "user_id",            null: false
+    t.decimal "value",              null: false
+    t.text    "tags",  default: [],              array: true
+    t.date    "date",               null: false
+  end
+
+  add_index "data", ["user_id"], name: "index_data_on_user"
+  add_index "data", ["tags"], name: "index_data_on_tags", using: :gin
+
+  # Foreign keys
+  add_foreign_key :data, :users, on_delete: :cascade
 end
