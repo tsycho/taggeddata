@@ -1,9 +1,41 @@
-<%= simple_form_for @datum do |f| %>
-  <%= f.input :s_date, input_html: {value: Date.today.strftime("%Y-%m-%d")} %>
-  <%= f.input :value %>
-  <%= f.input :s_tags, input_html: {value: ''} %>
+<section>
+  <h3 style="text-align: center;"><%= @title %></h3>
+</section>
 
-  <%= f.button :submit %>
-<% end %>
+<section>
+  <%= form_for @datum do |f| %>
+    <div class="row">
+      <div class="medium-2 columns"><%= f.label 'Date' %></div>
+      <div class="medium-8 pull-2 columns">
+        <%= f.text_field :s_date, value: Date.today.strftime("%Y-%m-%d"), class: "medium-8 columns" %>
+      </div>
+    </div>
 
-<br/>
+    <div class="row">
+      <div class="medium-2 columns"><%= f.label 'Value' %></div>
+      <div class="medium-8 pull-2 columns"><%= f.text_field :value %></div>
+    </div>
+
+    <div class="row">
+      <div class="medium-2 columns"><%= f.label 'Public?', class: "no-top-padding" %></div>
+      <div class="medium-8 pull-2 columns">
+        <div class="switch small round">
+          <%= f.check_box :is_public %>
+          <label for="datum_is_public"></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="medium-2 columns"><%= f.label 'Tags' %></div>
+      <div class="medium-8 pull-2 columns"><%= f.text_field :tags, placeholder: '#foo #bar' %></div>
+    </div>
+
+    <div class="row">
+      <div class="small-4 small-centered medium-2 medium-centered columns">
+        <%= f.submit "Save", class: "button round small" %>
+      </div>
+    </div>
+
+  <% end %>
+</section>

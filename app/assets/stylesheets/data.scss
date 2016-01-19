@@ -34,7 +34,27 @@ input[data-toggle]:checked + label:active {
   margin: 60px auto 20px auto;
   width: 80%;
 
-  th, td.data-date, td.data-value, td.data-options {
+  th, td.data-date, td.data-value, td.data-public, td.data-options {
     text-align: center;
+  }
+}
+
+#new_datum {
+  label { font-weight: bold; }
+
+  // For phone screens only
+  @media only screen and (max-width: 40em) {
+    label { margin-bottom: 4px; }
+    .switch { margin-bottom: 8px; }
+  }
+
+  // For medium and larger screens only
+  @media only screen and (min-width: 40.063em) {
+    .switch { margin-bottom: 12px; }
+    label.no-top-padding { padding-top: 4px;}
+    label {
+      text-align: right;
+      padding-top: 8px;
+    }
   }
 }

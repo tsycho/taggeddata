@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20160117082816) do
   create_table "data", force: :cascade do |t|
     t.integer "user_id",            null: false
     t.decimal "value",              null: false
+    t.boolean "is_public",          null: false, default: false
     t.text    "tags",  default: [],              array: true
     t.date    "date",               null: false
   end

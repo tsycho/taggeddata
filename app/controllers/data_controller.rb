@@ -11,8 +11,13 @@ class DataController < ApplicationController
   end
 
   def new
+    @title = "Add new data"
     @datum = Datum.new
     @tags = []
+  end
+
+  def edit
+    @title = "Edit data"
   end
 
   def create
@@ -20,7 +25,7 @@ class DataController < ApplicationController
 
     # Split, filter and format the tags
     # TODO: Dedupe tags?
-    s_tags = params["datum"]["s_tags"] || ""
+    s_tags = params["datum"]["tags"] || ""
     s_tags = "untagged" if s_tags.empty?
     @tags = s_tags.split(/[\s,]+/)
               .map { |t| t[0]=='#' ? t[1..-1] : t }
@@ -29,8 +34,10 @@ class DataController < ApplicationController
 
     value = params["datum"]["value"].to_f
     date = (params["datum"]["s_date"] && Date.parse(params["datum"]["s_date"])) || Date.today
+    is_public = (params["datum"]["is_public"].to_i == 1)
     @datum = Datum.create(:user_id => current_user.id,
                           :value => value,
+                          :is_public => is_public,
                           :date => date,
                           :tags => @tags)
 
