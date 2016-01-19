@@ -21,7 +21,7 @@ class DataController < ApplicationController
 
   def create
     # TODO: Validate params
-    @tags = parse_tags_from_params
+    @tags = parse_tags(params["datum"]["tags"])
     value = params["datum"]["value"].to_f
     date = (params["datum"]["s_date"] && Date.parse(params["datum"]["s_date"])) || Date.today
     is_public = (params["datum"]["is_public"].to_i == 1)
@@ -37,7 +37,7 @@ class DataController < ApplicationController
   def update
     # TODO: Validate params
     updated_values = {}
-    updated_values[:tags] = parse_tags_from_params
+    updated_values[:tags] = parse_tags(params["datum"]["tags"])
     updated_values[:value] = params["datum"]["value"].to_f
     updated_values[:date] = (params["datum"]["s_date"] && Date.parse(params["datum"]["s_date"])) || Date.today
     updated_values[:is_public] = (params["datum"]["is_public"].to_i == 1)
@@ -59,16 +59,5 @@ private
     unless @datum.user == current_user
       render :file => "#{Rails.root}/public/500", :layout => false, :status => 500
     end
-  end
-
-  # Split, filter, format, dedupe and sort the tags
-  def parse_tags_from_params
-    s_tags = params["datum"]["tags"] || ""
-    s_tags = "untagged" if s_tags.empty?
-    return s_tags.split(/[\s,]+/)
-              .map { |t| t[0]=='#' ? t[1..-1] : t }
-              .map { |t| t.downcase}
-              .select { |t| t.length > 0 }
-              .uniq.sort
   end
 end

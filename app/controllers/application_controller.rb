@@ -24,4 +24,15 @@ private
       redirect_to signin_path, :notice => "Please sign in."
     end
   end
+
+  # Split, filter, format, dedupe and sort the tags
+  def parse_tags(string_tags)
+    s_tags = string_tags || ""
+    s_tags = "untagged" if s_tags.empty?
+    return s_tags.split(/[\s,]+/)
+              .map { |t| t[0]=='#' ? t[1..-1] : t }
+              .map { |t| t.downcase}
+              .select { |t| t.length > 0 }
+              .uniq.sort
+  end
 end
