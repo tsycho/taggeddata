@@ -39,6 +39,11 @@ input[data-toggle]:checked + label:active {
   }
 }
 
+.data-readonly {
+  font-style: italic;
+  font-weight: lighter;
+}
+
 #new_datum {
   label { font-weight: bold; }
 

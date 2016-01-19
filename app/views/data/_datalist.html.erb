@@ -25,7 +25,14 @@
             <%= image_tag "http://uxrepo.com/static/icon-sets/ionicons/png32/36/000000/checkmark-36-000000.png", :size => '20x20' %>
           <% end %>
         </td>
-        <td class="data-options"><%= link_to "Delete", d, :method => :delete %></td>
+        <td class="data-options">
+          <% if current_user && d.user_id == current_user.id %>
+            <%= link_to "Edit", edit_datum_path(d) %> |
+            <%= link_to "Delete", d, :method => :delete %>
+          <% else %>
+            <span class="data-readonly">read-only</span>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
