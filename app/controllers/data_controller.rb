@@ -31,7 +31,7 @@ class DataController < ApplicationController
                           :date => date,
                           :tags => @tags)
 
-    redirect_to data_path
+    return_success_or_redirect_to_data_path
   end
 
   def update
@@ -43,12 +43,12 @@ class DataController < ApplicationController
     updated_values[:is_public] = (params["datum"]["is_public"].to_i == 1)
 
     @datum.update(updated_values)
-    redirect_to data_path
+    return_success_or_redirect_to_data_path
   end
 
   def destroy
     @datum.delete unless @datum.nil?
-    redirect_to data_path
+    return_success_or_redirect_to_data_path
   end
 
 private
@@ -58,6 +58,14 @@ private
     @datum = Datum.find(params[:id])
     unless @datum.user == current_user
       render :file => "#{Rails.root}/public/500", :layout => false, :status => 500
+    end
+  end
+
+  def return_success_or_redirect_to_data_path
+    if params[:key]
+      render :text => "Success!\n", :layout => false
+    else
+      redirect_to data_path
     end
   end
 end
