@@ -1,0 +1,27 @@
+<%# This fragment assumes @data is populated with the data we want to display %>
+<table id="user-table">
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td><%= @user.name %></td>
+    </tr>
+
+    <tr>
+      <td>Email</td>
+      <td><%= @user.email %></td>
+    </tr>
+
+    <tr>
+      <td class="">API Keys</td>
+      <td class="">
+        <% @user.api_keys.each do |api_key| %>
+          <%= api_key.key %>
+          <%= link_to "[X]", "/api_key/#{api_key.key}/delete", :method=> :post %>
+          <br/>
+        <% end %>
+
+        <%= link_to "Generate new key", "/api_key/create", :method=> :post %>
+      </td>
+    </tr>
+  </tbody>
+</table>

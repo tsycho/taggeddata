@@ -1,8 +1,7 @@
 <div class="auth">
   <% if current_user %>
-    <%= image_tag "#{current_user.photo}?sz=40", :size => 40 %>
-    <%= current_user.name %>
-    | <%= link_to "Sign out", signout_path %>
+    <%= link_to current_user.email, user_path %> |
+    <%= link_to "Sign out", signout_path %>
   <% else %>
     <%= link_to "Sign in with Google", signin_path %>
   <% end %>

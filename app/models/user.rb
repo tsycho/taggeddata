@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  has_many :data  # The db handles cascading deletes
+  # The db handles cascading deletes for both :data and :api_keys
+  has_many :data
+  has_many :api_keys
 
   validates :provider, presence: true
   validates :uid, presence: true

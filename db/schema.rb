@@ -11,9 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160117082816) do
+ActiveRecord::Schema.define(version: 20160123050457) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_keys", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string  "key",     null: false
+  end
+
+  add_index "api_keys", ["key"], name: "index_api_keys_on_key", unique: true, using: :btree
+
+  create_table "data", force: :cascade do |t|
+    t.integer "user_id",                   null: false
+    t.decimal "value",                     null: false
+    t.boolean "is_public", default: false, null: false
+    t.text    "tags",      default: [],                 array: true
+    t.date    "date",                      null: false
+  end
+
+  add_index "data", ["tags"], name: "index_data_on_tags", using: :gin
+  add_index "data", ["user_id"], name: "index_data_on_user", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",   null: false
@@ -25,19 +44,8 @@ ActiveRecord::Schema.define(version: 20160117082816) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid"
+  add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", using: :btree
 
-  create_table "data", force: :cascade do |t|
-    t.integer "user_id",            null: false
-    t.decimal "value",              null: false
-    t.boolean "is_public",          null: false, default: false
-    t.text    "tags",  default: [],              array: true
-    t.date    "date",               null: false
-  end
-
-  add_index "data", ["user_id"], name: "index_data_on_user"
-  add_index "data", ["tags"], name: "index_data_on_tags", using: :gin
-
-  # Foreign keys
-  add_foreign_key :data, :users, on_delete: :cascade
+  add_foreign_key "api_keys", "users", on_delete: :cascade
+  add_foreign_key "data", "users", on_delete: :cascade
 end
