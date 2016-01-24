@@ -6,6 +6,7 @@ default: &default
   username: taggeddata
   password: taggeddata!
   timeout: 5000
+  host: localhost
 
 development:
   <<: *default
