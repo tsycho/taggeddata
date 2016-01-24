@@ -7,7 +7,14 @@
     <div class="row">
       <div class="medium-2 columns"><%= f.label 'Date' %></div>
       <div class="medium-8 pull-2 columns">
-        <%= f.text_field :s_date, value: @datum.date.strftime("%Y-%m-%d"), class: "medium-8 columns" %>
+        <%= f.text_field :date, value: @datum.date.strftime("%Y-%m-%d"), class: "medium-8 columns" %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="medium-2 columns"><%= f.label 'Data' %></div>
+      <div class="medium-8 pull-2 columns">
+        <%= f.text_field :data, value: @datum.data.as_json %>
       </div>
     </div>
 

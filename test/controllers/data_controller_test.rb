@@ -6,9 +6,12 @@ class DataControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get new" do
-    get :new
+  test "should create datum" do
+    post :create, :params => {:value => 42, :tags => "foo, bar", :date => Date.today }
     assert_response :success
+
+    d = Datum.last
+    puts d
   end
 
 end

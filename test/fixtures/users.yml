@@ -1,15 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  provider: MyString
-  uid: MyString
-  name: MyString
-  email: MyString
-  photo: MyString
+  id: 1
+  provider: "google_oauth2"
+  uid: "uid1"
+  name: "User 1"
+  email: "Email 1"
 
 two:
-  provider: MyString
-  uid: MyString
-  name: MyString
-  email: MyString
-  photo: MyString
+  id: 2
+  provider: "google_oauth2"
+  uid: "uid2"
+  name: "User 2"
+  email: "Email 2"

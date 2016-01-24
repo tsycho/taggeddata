@@ -1,9 +1,18 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  value: 9.99
-  tags: MyText
-
-two:
-  value: 9.99
-  tags: MyText
+# one:
+#   id: 1
+#   user_id: 1
+#   value: 24.3
+#   tags: ["bar", "foo"]
+#   date: 2016-01-01
+#   data:
+#     value: 24.3
+#
+# two:
+#   id: 2
+#   user_id: 1
+#   value: 42.0
+#   tags: ["foo"]
+#   date: 2016-01-02
+#   data:
+#     value: 42.0

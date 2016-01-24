@@ -25,14 +25,15 @@ ActiveRecord::Schema.define(version: 20160123050457) do
 
   create_table "data", force: :cascade do |t|
     t.integer "user_id",                   null: false
-    t.decimal "value",                     null: false
+    t.decimal "value"
+    t.jsonb   "data"
     t.boolean "is_public", default: false, null: false
     t.text    "tags",      default: [],                 array: true
     t.date    "date",                      null: false
   end
 
-  add_index "data", ["tags"], name: "index_data_on_tags", using: :gin
   add_index "data", ["user_id"], name: "index_data_on_user", using: :btree
+  add_index "data", ["tags"], name: "index_data_on_tags", using: :gin
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",   null: false

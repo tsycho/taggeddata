@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  api_version(:module => "V1", :path => {:value => "/api/v1"}) do
+    resources :data, :only => [:index, :show, :create, :update, :destroy]
+  end
+
   get 'users/show', :as => '/user'
   post 'api_key/create' => 'users#create_api_key'
   post 'api_key/:key/delete' => 'users#delete_api_key'
