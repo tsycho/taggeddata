@@ -24,6 +24,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'foundation-rails'
 gem 'chartkick'
 gem 'omniauth-google-oauth2'
+gem 'puma'
 gem 'pg'
 gem 'versionist'
 
